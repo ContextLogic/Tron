@@ -130,7 +130,7 @@ class ValidateSSHOptions(Validator):
     config_class =                  ConfigSSHOptions
     optional =                      True
     defaults = {
-        'agent':                    False,
+        'agent':                    True,
         'identities':               (),
         'known_hosts_file':         None,
         'connect_timeout':          30,
@@ -151,6 +151,9 @@ class ValidateSSHOptions(Validator):
         'jitter_max_delay':         config_utils.valid_int,
         'jitter_load_factor':       config_utils.valid_int,
     }
+
+    def do_shortcut(self, node):
+        return schema.ConfigSSHOptions(**self.defaults)
 
     def post_validation(self, valid_input, config_context):
         if config_context.partial:
@@ -281,6 +284,11 @@ class ValidateJob(Validator):
         'queueing':             True,
         'allow_overlap':        False,
         'max_runtime':          None,
+        'email_name':           None,
+        'email':                None,
+        'command':              None,
+        'priority':             None,
+        'owner':                None,
     }
 
     validators = {
@@ -416,6 +424,25 @@ valid_state_persistence = ValidateStatePersistence()
 
 def validate_jobs_and_services(config, config_context):
     """Validate jobs and services."""
+    if 'command_context' in config:
+        sorted_context = [(key,config['command_context'][key]) for key in \
+            sorted(config['command_context'], key=len, reverse=True)]
+        for job in config['jobs']:
+            for var, repl_var in sorted_context:
+                if 'report' in job:
+                    del job['report']
+                    job['email'] = 'report-%s' % job['email']
+                if 'node' not in job:
+                    job['node'] = 'be-master'
+                if 'actions' not in job:
+                    job['actions'] = [{}]
+                    job['actions'][0]['command'] = job['command']
+                    job['actions'][0]['name'] = job['email'] \
+                        if 'email' in job else 'none'
+                old_cmd = job['actions'][0]['command']
+                if var in old_cmd:
+                    job['actions'][0]['command'] = old_cmd.replace(var, repl_var)
+                    continue
     valid_jobs      = build_dict_name_validator(valid_job, allow_empty=True)
     valid_services  = build_dict_name_validator(valid_service, allow_empty=True)
     validation      = [('jobs', valid_jobs), ('services', valid_services)]
@@ -501,7 +528,8 @@ class ValidateNamedConfig(Validator):
     type_name =                 "NamedConfigFragment"
     defaults = {
         'jobs':                 (),
-        'services':             ()
+        'services':             (),
+        'command_context':      {}
     }
 
     optional = False

@@ -229,6 +229,11 @@ class JobAdapter(ReprAdapter):
         'runs',
         'max_runtime',
         'action_graph',
+        'email_name',
+        'email',
+        'command',
+        'priority',
+        'owner',
     ]
 
     def __init__(self, job,
@@ -272,6 +277,21 @@ class JobAdapter(ReprAdapter):
 
     def get_max_runtime(self):
         return str(self._obj.max_runtime)
+
+    def get_email_name(self):
+        return str(self._obj.email_name)
+
+    def get_email(self):
+        return str(self._obj.email)
+
+    def get_command(self):
+        return str(self._obj.command)
+
+    def get_priority(self):
+        return str(self._obj.priority)
+
+    def get_owner(self):
+        return str(self._obj.owner)
 
     @toggle_flag('include_action_graph')
     def get_action_graph(self):

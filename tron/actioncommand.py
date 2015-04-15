@@ -78,7 +78,7 @@ class ActionCommand(object):
         return self.machine.transition('exit')
 
     def write_stderr(self, value):
-        self.stderr.write(value)
+        self.stdout.write(value) # put stderr into same file as stdout
 
     def write_stdout(self, value):
         self.stdout.write(value)

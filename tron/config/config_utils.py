@@ -10,7 +10,7 @@ from tron.utils.dicts import FrozenDict
 
 
 MAX_IDENTIFIER_LENGTH       = 255
-IDENTIFIER_RE               = re.compile(r'^[A-Za-z_][\w\-]{0,254}$')
+IDENTIFIER_RE               = re.compile(r'^[A-Za-z_\[\]\(\)][\w\-\,\[\]\(\)]{0,254}$')
 
 
 class UniqueNameDict(dict):
@@ -132,6 +132,7 @@ def valid_time_delta(value, config_context):
 
 
 def valid_name_identifier(value, config_context):
+    value = value.replace(" ", "_") # for cron urls by name to work
     valid_identifier(value, config_context)
     if config_context.partial:
         return value

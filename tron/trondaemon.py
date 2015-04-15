@@ -89,6 +89,9 @@ def setup_logging(options):
         twist_level = logging.INFO
     if options.verbose > 2:
         twist_level = logging.DEBUG
+    # (david) hack for now
+    level = logging.DEBUG
+    twist_level = logging.DEBUG
 
     tron_logger = logging.getLogger('tron')
     twisted_logger = logging.getLogger('twisted')

@@ -9,6 +9,9 @@ from tron.scheduler import scheduler_from_config
 from tron.serialize import filehandler
 from tron.utils import timeutils, proxy, iteration, collections
 from tron.utils.observer import Observable, Observer
+from datetime import datetime, timedelta
+
+SCHEDULE_THRESHOLD = 30 # do not start jobs scheduled more than 30 minutes ago
 
 class Error(Exception):
     pass
@@ -54,15 +57,27 @@ class Job(Observable, Observer):
         'action_runner',
         'max_runtime',
         'allow_overlap',
+        'email_name',
+        'email',
+        'command',
+        'priority',
+        'owner',
     ]
 
     # TODO: use config object
     def __init__(self, name, scheduler, queueing=True, all_nodes=False,
             node_pool=None, enabled=True, action_graph=None,
             run_collection=None, parent_context=None, output_path=None,
-            allow_overlap=None, action_runner=None, max_runtime=None):
+            allow_overlap=None, action_runner=None, max_runtime=None,
+            email_name=None, email=None, command=None, priority=None,
+            owner=None):
         super(Job, self).__init__()
         self.name               = name
+        self.email_name         = name.split(".")[1].replace('_', ' ')
+        self.email              = email
+        self.command            = command
+        self.priority           = priority
+        self.owner              = owner
         self.action_graph       = action_graph
         self.scheduler          = scheduler
         self.runs               = run_collection
@@ -101,7 +116,9 @@ class Job(Observable, Observer):
             output_path         = output_path,
             allow_overlap       = job_config.allow_overlap,
             action_runner       = action_runner,
-            max_runtime         = job_config.max_runtime)
+            max_runtime         = job_config.max_runtime,
+            priority            = job_config.priority,
+            owner               = job_config.owner)
 
     def update_from_job(self, job):
         """Update this Jobs configuration from a new config. This method
@@ -269,6 +286,12 @@ class JobScheduler(Observer):
         """
         if self.shutdown_requested:
             return
+
+        if hasattr(job_run, 'state_data') and datetime.now() - \
+                    job_run.state_data['run_time'] > timedelta(minutes=SCHEDULE_THRESHOLD):
+            log.info("%s cancelled because job was scheduled over %d min ago" %
+                    (job_run, SCHEDULE_THRESHOLD))
+            return job_run.cancel()
 
         # If the Job has been disabled after this run was scheduled, then cancel
         # the JobRun and do not schedule another

@@ -3,16 +3,17 @@ from __future__ import with_statement
 import logging
 import os
 import tempfile
+import subprocess
 import sys
 
 from tron.commands import cmd_utils
 from tron.commands.client import Client
 from tron.config import config_parse
 from tron.config import schema, manager, ConfigError
-
+from getpass import getuser
 
 log = logging.getLogger('tronfig')
-
+TRON_LOG = '/var/log/tron/tron.log'
 
 def set_options_from_args(options, args):
     if args and args[-1] == '-':
@@ -93,14 +94,43 @@ def update_with_editor(client, config_name):
     response        = client.config(config_name)
     config_content  = response['config']
     config_hash     = response['hash']
+    username        = getuser()
+    with open(TRON_LOG, "a") as tron_log:
+        tron_log.write("tronfig editing by %s" % username)
     while True:
+        orig_content = config_content
         config_content = edit_config(config_content)
         if not config_content:
             log.warn("Cancelling edit.")
             return
 
+        if orig_content == config_content:
+            print >> sys.stderr, "unchanged"
+            return
+
         if validate(config_name, config_content):
             if upload_config(client, config_name, config_content, config_hash):
+                print >>sys.stderr, "uploading to github..."
+                output = []
+                try:
+                    p = subprocess.Popen("python /var/lib/tron/tronfig.py %s %s" % (username, config_name),
+                        shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                    while True:
+                        out = p.stdout.readline()
+
+                        if not out and p.poll() is not None:
+                            break
+
+                        if out:
+                            output.append(out)
+                            print out.strip()
+
+                    if p.wait() != 0:
+                        raise Exception("Process returned non-zero response %d" % p.returncode)
+
+                    print >>sys.stderr, "success"
+                except:
+                    print >>sys.stderr, "failed: %s" % ''.join(output)
                 return
 
         response = raw_input(

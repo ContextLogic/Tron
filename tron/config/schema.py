@@ -48,7 +48,8 @@ NamedTronConfig = config_object_factory(
     'NamedTronConfig',
     optional=[
         'jobs',                # FrozenDict of ConfigJob
-        'services'             # FrozenDict of ConfigService
+        'services',             # FrozenDict of ConfigService
+        'command_context',     # FrozenDict of str
     ])
 
 
@@ -112,6 +113,11 @@ ConfigJob = config_object_factory(
         'enabled',              # bool
         'allow_overlap',        # bool
         'max_runtime',          # datetime.Timedelta
+        'email_name',           # str
+        'email',                # str
+        'command',              # str
+        'priority',             # str
+        'owner',                # str
     ])
 
 

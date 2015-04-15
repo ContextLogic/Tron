@@ -23,7 +23,7 @@ class ExitCode(object):
 GLOBAL_CONFIG_FILE_NAME = os.environ.get('TRON_CONFIG') or "/etc/tron/tron.yaml"
 CONFIG_FILE_NAME = os.path.expanduser('~/.tron')
 
-DEFAULT_HOST = 'localhost'
+DEFAULT_HOST = '0.0.0.0'
 DEFAULT_PORT = 8089
 
 DEFAULT_CONFIG = {

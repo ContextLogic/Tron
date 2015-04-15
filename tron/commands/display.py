@@ -349,6 +349,11 @@ class DisplayJobs(TableDisplay):
         ('Run on all nodes',    'all_nodes'         ),
         ('Allow overlapping',   'allow_overlap'     ),
         ('Queue overlapping',   'queueing'          ),
+        ('Email name',          'email_name'        ),
+        ('Email',               'email'             ),
+        ('Command',             'command'           ),
+        ('Priority',            'priority'          ),
+        ('Owner',               'owner'             ),
     ]
 
     colors = {
