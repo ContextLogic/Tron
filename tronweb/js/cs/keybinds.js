@@ -18,6 +18,17 @@
         case 70:
           $('#view-full-screen').click();
           break;
+        case 78: // 'n' to start new run for job pages
+          if ($('.jobruns').length > 0) {
+            $.post(
+              "http://tron:8089/api/jobs/"+window.location.hash.substring(5),
+              { command: "start" },
+              function(data) {
+                alert("Scheduled new run");
+                location.reload();
+              }
+            );
+          }
         case 82:
           $('.refresh-view .btn').click();
           break;
