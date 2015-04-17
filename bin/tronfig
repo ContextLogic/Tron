@@ -128,9 +128,9 @@ def update_with_editor(client, config_name):
                     if p.wait() != 0:
                         raise Exception("Process returned non-zero response %d" % p.returncode)
 
-                    print >>sys.stderr, "success"
+                    print >>sys.stderr, "success - http://tron:8089/"
                 except:
-                    print >>sys.stderr, "failed: %s" % ''.join(output)
+                    print >>sys.stderr, "failed (please see David): %s" % ''.join(output)
                 return
 
         response = raw_input(
