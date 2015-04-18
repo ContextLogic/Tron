@@ -88,6 +88,10 @@ def update_from_stdin(client, config_name):
 
 
 def update_with_editor(client, config_name):
+    namespaces = client.home()['namespaces']
+    if config_name not in namespaces:
+        raise SystemExit("Available namespaces are: %s" % '\n'.join(namespaces))
+
     if not sys.stdout.isatty():
         raise SystemExit("No editing possible.")
 
