@@ -13,7 +13,6 @@ from tron.config import schema, manager, ConfigError
 from getpass import getuser
 
 log = logging.getLogger('tronfig')
-TRON_LOG = '/var/log/tron/tron.log'
 
 def set_options_from_args(options, args):
     if args and args[-1] == '-':
@@ -99,8 +98,6 @@ def update_with_editor(client, config_name):
     config_content  = response['config']
     config_hash     = response['hash']
     username        = getuser()
-    with open(TRON_LOG, "a") as tron_log:
-        tron_log.write("tronfig editing by %s" % username)
     while True:
         orig_content = config_content
         config_content = edit_config(config_content)
