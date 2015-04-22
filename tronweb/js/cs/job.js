@@ -382,7 +382,7 @@
     };
     JobRunListEntryView.prototype.tagName = "tr";
     JobRunListEntryView.prototype.className = "clickable";
-    JobRunListEntryView.prototype.template = _.template("<i class=\"icon-time icon-white\"></i><span id=\"schedule-manual\"></span><td>\n    <a href=\"#job/<%= job_name %>/<%= run_num %>\"><%= run_num %></a>\n    <%= modules.job.formatManualRun(manual) %>\n</td>\n<td><%= formatState(state) %></td>\n<td><%= displayNode(node) %></td>\n<td><%= dateFromNow(start_time || run_time, \"Unknown\") %></td>\n<td><%= dateFromNow(end_time, \"\") %></td>");
+    JobRunListEntryView.prototype.template = _.template("<td>\n    <a href=\"#job/<%= job_name %>/<%= run_num %>\"><%= run_num %></a>\n    <%= modules.job.formatManualRun(manual) %>\n</td>\n<td><%= formatState(state) %></td>\n<td><%= displayNode(node) %></td>\n<td><%= dateFromNow(start_time || run_time, \"Unknown\") %></td>\n<td><%= dateFromNow(end_time, \"\") %></td>");
     JobRunListEntryView.prototype.render = function() {
       this.$el.html(this.template(this.model.attributes));
       makeTooltips(this.$el);
