@@ -33,7 +33,7 @@
     NavView.prototype.handleClick = function(event) {
       return console.log(event);
     };
-    NavView.prototype.template = "<div class=\"navbar-inner\">\n  <div class=\"container\">\n  <ul class=\"nav\">\n    <li class=\"brand\">tron<span>web</span></li>\n    <li><a href=\"#home\">\n      <i class=\"icon-th\"></i>Dashboard</a>\n    </li>\n    <li><a href=\"#jobs\">\n      <i class=\"icon-time\"></i>Scheduled Jobs</a>\n    </li>\n    <li><a href=\"#services\">\n      <i class=\"icon-repeat\"></i>Services</a>\n    </li>\n    <li><a href=\"#configs\">\n      <i class=\"icon-wrench\"></i>Config</a>\n    </li>\n  </ul>\n\n  <form class=\"navbar-search pull-right\">\n  </form>\n\n  </div>\n</div>";
+    NavView.prototype.template = "<div class=\"navbar-inner\">\n  <div class=\"container\">\n  <ul class=\"nav\">\n    <li class=\"brand\">tron<span>web</span></li>\n    <li><a href=\"#home\">\n      <i class=\"icon-th\"></i>Dashboard</a>\n    </li>\n    <li><a href=\"#jobs\">\n      <i class=\"icon-time\"></i>Scheduled Jobs</a>\n    </li>\n    <li><a href=\"#configs\">\n      <i class=\"icon-wrench\"></i>Config</a>\n    </li>\n  </ul>\n\n  <form class=\"navbar-search pull-right\">\n  </form>\n\n  </div>\n</div>";
     NavView.prototype.typeaheadTemplate = "<input type=\"text\" class=\"input-medium search-query typeahead\"\n    placeholder=\"Search\"\n    autocomplete=\"off\"\n    data-provide=\"typeahead\">\n<div class=\"icon-search\"></div>";
     NavView.prototype.render = function() {
       this.$el.html(this.template);

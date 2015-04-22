@@ -77,7 +77,7 @@
     function DashboardFilterView() {
       DashboardFilterView.__super__.constructor.apply(this, arguments);
     }
-    DashboardFilterView.prototype.createtype = _.template("<div class=\"input-prepend\">\n   <i class=\"icon-markerright icon-grey\"></i>\n   <div class=\"filter-select\">\n     <select id=\"filter-<%= filterName %>\"\n          class=\"span3\"\n          data-filter-name=\"<%= filterName %>Filter\">\n      <option value=\"\">All</option>\n      <option <%= isSelected(defaultValue, 'job') %>\n          value=\"job\">Scheduled Jobs</option>\n      <option <%= isSelected(defaultValue, 'service') %>\n          value=\"service\">Services</option>\n    </select>\n  </div>\n</div>");
+    DashboardFilterView.prototype.createtype = _.template("<div class=\"input-prepend\">\n   <i class=\"icon-markerright icon-grey\"></i>\n   <div class=\"filter-select\">\n     <select id=\"filter-<%= filterName %>\"\n          class=\"span3\"\n          data-filter-name=\"<%= filterName %>Filter\">\n      <option value=\"\">All</option>\n      <option <%= isSelected(defaultValue, 'job') %>\n          value=\"job\">Scheduled Jobs</option>\n      </select>\n  </div>\n</div>");
     return DashboardFilterView;
   })();
   window.DashboardView = (function() {
