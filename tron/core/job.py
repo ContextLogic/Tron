@@ -62,6 +62,7 @@ class Job(Observable, Observer):
         'command',
         'priority',
         'owner',
+        'impact',
     ]
 
     # TODO: use config object
@@ -70,7 +71,7 @@ class Job(Observable, Observer):
             run_collection=None, parent_context=None, output_path=None,
             allow_overlap=None, action_runner=None, max_runtime=None,
             email_name=None, email=None, command=None, priority=None,
-            owner=None):
+            owner=None, impact=None):
         super(Job, self).__init__()
         self.name               = name
         self.email_name         = name.split(".")[1].replace('_', ' ')
@@ -78,6 +79,7 @@ class Job(Observable, Observer):
         self.command            = command
         self.priority           = priority
         self.owner              = owner
+        self.impact             = impact
         self.action_graph       = action_graph
         self.scheduler          = scheduler
         self.runs               = run_collection
@@ -118,7 +120,8 @@ class Job(Observable, Observer):
             action_runner       = action_runner,
             max_runtime         = job_config.max_runtime,
             priority            = job_config.priority,
-            owner               = job_config.owner)
+            owner               = job_config.owner,
+            impact              = job_config.impact)
 
     def update_from_job(self, job):
         """Update this Jobs configuration from a new config. This method

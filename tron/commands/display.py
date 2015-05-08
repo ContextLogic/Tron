@@ -354,6 +354,7 @@ class DisplayJobs(TableDisplay):
         ('Command',             'command'           ),
         ('Priority',            'priority'          ),
         ('Owner',               'owner'             ),
+        ('Impact',              'impact'            ),
     ]
 
     colors = {
