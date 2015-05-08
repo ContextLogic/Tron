@@ -234,7 +234,6 @@ class JobAdapter(ReprAdapter):
         'command',
         'priority',
         'owner',
-        'impact',
     ]
 
     def __init__(self, job,
@@ -293,9 +292,6 @@ class JobAdapter(ReprAdapter):
 
     def get_owner(self):
         return str(self._obj.owner)
-
-    def get_impact(self):
-        return str(self._obj.impact)
 
     @toggle_flag('include_action_graph')
     def get_action_graph(self):

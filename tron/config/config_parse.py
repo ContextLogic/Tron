@@ -289,7 +289,6 @@ class ValidateJob(Validator):
         'command':              None,
         'priority':             None,
         'owner':                None,
-        'impact':               None,
     }
 
     validators = {
