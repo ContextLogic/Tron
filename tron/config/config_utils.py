@@ -10,7 +10,7 @@ from tron.utils.dicts import FrozenDict
 
 
 MAX_IDENTIFIER_LENGTH       = 255
-IDENTIFIER_RE               = re.compile(r'^[A-Za-z_\[\]\(\)][\w\-\,\[\]\(\)]{0,254}$')
+IDENTIFIER_RE               = re.compile(r'^[A-Za-z_\[\]\(\)][\w\-\,\.\[\]\(\)]{0,254}$')
 
 
 class UniqueNameDict(dict):
