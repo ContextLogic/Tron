@@ -1,8 +1,25 @@
+# Tron config file for your crons - https://pythonhosted.org/tron/jobs.html
 #
-# Named Configuration Template
+# For each job, please specify the following:
+# * name is subject of email (must be unique)
+# * schedule is when to run job (https://pythonhosted.org/tron/jobs.html#scheduling)
+#   - cron min hour    day-of-month    month   day-of-week
+#   - ex.  0   5       *               *       *           will run at 5am everyday
+# * email is a list of ',' delimited names
+# * node to where cron to be run (default be-master)
+# * command is the command to run (supports alias [wish/merch]-python or time-[wish/merch]-python)
 #
-# You are creating or editing a named configuration.  Add your jobs and services
-# in the lists below.
+# Optional arguments:
+# * report to 'true' for jobs to always email on complete; default only on failure
+# * allow_overlap to 'true' to allow new job runs if the previous run still running
+# * queueing to 'false' to cancel job runs if a previous job run is still running
+#
+# To setup alerts/monitoring:
+# * priority to a level to trigger alerts if unexpected job run rates
+#   - ex. HIGH will alert if no success in 2 hours from cron's last scheduled run
+#   - definitions are in /var/lib/tron/check_tron_run.py
+# * owner is a list of ',' deliminated names to alert depending on priority
+# * impact is a message sent to oncall and owners if run alert is triggered#
 #
 # The following node, node pools, and command_context are made available from
 # the master configuration.
@@ -11,11 +28,9 @@
 # -----------------------
 # %(node_names)s
 #
-#
 # Command Context:
 # ---------------
 # %(command_context)s
-#
 #
 # All the lines above will be ignored and removed from your configuration.
 # Configuration starts below this line.
