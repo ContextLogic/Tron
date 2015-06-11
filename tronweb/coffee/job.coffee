@@ -189,6 +189,13 @@ class window.JobView extends Backbone.View
                 <h1>
                     <small>Job</small>
                     <%= formatName(name) %>
+                    <span id="run-job">
+                        <button class="btn btn-clear tt-enable"
+                            title="Run Job"
+                            data-placement="right">
+                            <i class="icon-forward icon-white"></i>
+                        </button>
+                    </span>
                     <span id="refresh"></span>
                 </h1>
             </div>
@@ -229,6 +236,15 @@ class window.JobView extends Backbone.View
             <div id="job-runs"></div>
         </div>
         """
+
+    events:
+        "click #run-job": "runJob"
+
+    runJob: (event) =>
+        @model.fetch
+            data: $.param({command: 'start'})
+            type: 'POST'
+        .then(Backbone.history.loadUrl(Backbone.history.fragment))
 
     # TODO: move to JobActionGraphView
     renderGraph: =>
@@ -399,6 +415,7 @@ class window.JobRunView extends Backbone.View
 
     initialize: (options) =>
         @listenTo(@model, "change", @render)
+        @listenTo(@model, "fetch", @render)
         @refreshView = new RefreshToggleView(model: @model.refreshModel)
         @listenTo(@refreshView, 'refreshView', => @model.fetch())
 
@@ -413,7 +430,7 @@ class window.JobRunView extends Backbone.View
                     <small>Job Run</small>
                     <a href="<%= job_url %>">
                         <%= formatName(job_name) %></a>.<%= run_num %>
-                    <span id="filter"</span>
+                    <span id="filter"></span>
                 </h1>
 
             </div>
@@ -422,7 +439,17 @@ class window.JobRunView extends Backbone.View
                 <div>
                 <table class="table details">
                     <tr><td class="span2">State</td>
-                        <td><%= formatState(state) %></td></tr>
+                        <td><%= formatState(state) %>
+                        <% if (state === 'running') { %>
+                        <span id="kill-job">
+                            <button class="btn btn-clear tt-enable"
+                                title="Kill Job"
+                                data-placement="right">
+                                <i class="icon-stop" style="color: RED;"></i>
+                            </button>
+                        </span>
+                        <% } %>
+                        </td></tr>
                     <tr><td>Node</td>
                         <td><%= displayNode(node) %></td></tr>
                     <tr><td>Scheduled</td>
@@ -473,6 +500,15 @@ class window.JobRunView extends Backbone.View
             </div>
         </div>
         """
+
+    events:
+        'click #kill-job>button': 'killJobRun'
+
+    killJobRun: (event) =>
+        @model.fetch
+            data: $.param({command: 'stop'})
+            type: 'POST'
+        .then(Backbone.history.loadUrl(Backbone.history.fragment))
 
     renderList: (actionRuns) =>
         entry = (run) =>
@@ -526,6 +562,7 @@ class window.JobRunView extends Backbone.View
         @renderList(actionRuns)
         @renderGraph()
         @renderTimeline(actionRuns)
+        @delegateEvents()
         makeTooltips(@$el)
         modules.views.makeHeaderToggle(@$el)
         @
