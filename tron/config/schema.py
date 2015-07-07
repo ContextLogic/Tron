@@ -119,6 +119,7 @@ ConfigJob = config_object_factory(
         'priority',             # str
         'owner',                # str
         'impact',               # str
+        'expected_runtime',     # str
     ])
 
 

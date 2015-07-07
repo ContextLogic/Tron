@@ -355,6 +355,7 @@ class DisplayJobs(TableDisplay):
         ('Priority',            'priority'          ),
         ('Owner',               'owner'             ),
         ('Impact',              'impact'            ),
+        ('Expected runtime',    'expected_runtime'  ),
     ]
 
     colors = {

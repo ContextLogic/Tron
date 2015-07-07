@@ -63,6 +63,7 @@ class Job(Observable, Observer):
         'priority',
         'owner',
         'impact',
+        'expected_runtime',
     ]
 
     # TODO: use config object
@@ -71,7 +72,7 @@ class Job(Observable, Observer):
             run_collection=None, parent_context=None, output_path=None,
             allow_overlap=None, action_runner=None, max_runtime=None,
             email_name=None, email=None, command=None, priority=None,
-            owner=None, impact=None):
+            owner=None, impact=None, expected_runtime=None):
         super(Job, self).__init__()
         self.name               = name
         self.email_name         = name.split(".")[1].replace('_', ' ')
@@ -90,6 +91,7 @@ class Job(Observable, Observer):
         self.allow_overlap      = allow_overlap
         self.action_runner      = action_runner
         self.max_runtime        = max_runtime
+        self.expected_runtime   = expected_runtime
         self.output_path        = output_path or filehandler.OutputPath()
         self.output_path.append(name)
         self.event              = event.get_recorder(self.name)
@@ -121,7 +123,8 @@ class Job(Observable, Observer):
             max_runtime         = job_config.max_runtime,
             priority            = job_config.priority,
             owner               = job_config.owner,
-            impact              = job_config.impact)
+            impact              = job_config.impact,
+            expected_runtime    = job_config.expected_runtime)
 
     def update_from_job(self, job):
         """Update this Jobs configuration from a new config. This method

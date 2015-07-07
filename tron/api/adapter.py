@@ -235,6 +235,7 @@ class JobAdapter(ReprAdapter):
         'priority',
         'owner',
         'impact',
+        'expected_runtime',
     ]
 
     def __init__(self, job,
@@ -296,6 +297,9 @@ class JobAdapter(ReprAdapter):
 
     def get_impact(self):
         return str(self._obj.impact)
+
+    def get_expected_runtime(self):
+        return str(self._obj.expected_runtime)
 
     @toggle_flag('include_action_graph')
     def get_action_graph(self):

@@ -290,6 +290,7 @@ class ValidateJob(Validator):
         'priority':             None,
         'owner':                None,
         'impact':               None,
+        'expected_runtime':     0,
     }
 
     validators = {
