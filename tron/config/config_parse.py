@@ -441,8 +441,9 @@ def validate_jobs_and_services(config, config_context):
                 disable_pr.communicate()
                 print '%s %sd' % (job['name'], tron_cmd)
             if 'report' in job:
+                if job['report'] is True:
+                    job['email'] = 'report-%s' % job['email']
                 del job['report']
-                job['email'] = 'report-%s' % job['email']
             if 'node' not in job:
                 job['node'] = 'be-master'
             if 'actions' not in job:
