@@ -5,6 +5,7 @@ contain a validated configuration.
 import itertools
 import logging
 import os
+import subprocess
 
 import pytz
 from tron import command_context
@@ -430,17 +431,26 @@ def validate_jobs_and_services(config, config_context):
         sorted_context = [(key,config['command_context'][key]) for key in \
             sorted(config['command_context'], key=len, reverse=True)]
         for job in config['jobs']:
+            if 'enabled' in job:
+                tron_cmd = 'enable' if job['enabled'] else 'disable'
+                namespace_job = '%s.%s' % (config_context.namespace,
+                    job['name'].replace(" ", "_"))
+                disable_pr = subprocess.Popen(['tronctl', tron_cmd,
+                    namespace_job], stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE)
+                disable_pr.communicate()
+                print '%s %sd' % (job['name'], tron_cmd)
+            if 'report' in job:
+                del job['report']
+                job['email'] = 'report-%s' % job['email']
+            if 'node' not in job:
+                job['node'] = 'be-master'
+            if 'actions' not in job:
+                job['actions'] = [{}]
+                job['actions'][0]['command'] = job['command']
+                job['actions'][0]['name'] = job['email'] \
+                    if 'email' in job else 'none'
             for var, repl_var in sorted_context:
-                if 'report' in job:
-                    del job['report']
-                    job['email'] = 'report-%s' % job['email']
-                if 'node' not in job:
-                    job['node'] = 'be-master'
-                if 'actions' not in job:
-                    job['actions'] = [{}]
-                    job['actions'][0]['command'] = job['command']
-                    job['actions'][0]['name'] = job['email'] \
-                        if 'email' in job else 'none'
                 old_cmd = job['actions'][0]['command']
                 if var in old_cmd:
                     job['actions'][0]['command'] = old_cmd.replace(var, repl_var)
