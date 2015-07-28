@@ -16,7 +16,8 @@
 #
 # To setup alerts/monitoring:
 # * priority to a level to trigger alerts if unexpected job run rates
-#   - ex. HIGH will alert if no success in 2 hours from cron's last scheduled run
+#   - HIGH will alert if no success in 2 hours from cron's last scheduled run
+#   - HIGH-5min will alert if no success in 5 minutes from cron's last scheduled run
 #   - definitions are in /var/lib/tron/check_tron_run.py
 # * owner is a list of ',' deliminated names to alert depending on priority
 # * impact is a message sent to oncall and owners if run alert is triggered#
