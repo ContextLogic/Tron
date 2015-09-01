@@ -19,7 +19,7 @@ setFocusBinds = (el) ->
 
             else return
 
-        event.preventDefault()
+        #event.preventDefault()
 
 
 $(document).ready ->

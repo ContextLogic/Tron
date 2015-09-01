@@ -433,12 +433,12 @@ def validate_jobs_and_services(config, config_context):
         for job in config['jobs']:
             tron_cmd = 'enable' if ('enabled' not in job or job['enabled']) \
                 else 'disable'
-            namespace_job = '%s.%s' % (config_context.namespace,
-                job['name'].replace(" ", "_"))
-            disable_pr = subprocess.Popen(['tronctl', tron_cmd,
-                namespace_job], stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE)
-            disable_pr.communicate()
+            #namespace_job = '%s.%s' % (config_context.namespace,
+            #    job['name'].replace(" ", "_"))
+            #disable_pr = subprocess.Popen(['tronctl', tron_cmd,
+            #    namespace_job], stdout=subprocess.PIPE,
+            #    stderr=subprocess.PIPE)
+            #disable_pr.communicate()
             if tron_cmd == 'disable':
                 print '%s %sd' % (job['name'], tron_cmd)
             if 'report' in job:
