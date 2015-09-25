@@ -5,6 +5,7 @@
 # * schedule is when to run job (https://pythonhosted.org/tron/jobs.html#scheduling)
 #   - cron min hour    day-of-month    month   day-of-week
 #   - ex.  0   5       *               *       *           will run at 5am everyday
+#   - NOTE: only cron scheduling reliably tested; interval may skip runs
 # * email is a list of ',' delimited names
 # * node to where cron to be run (default be-master)
 # * command is the command to run (supports alias [wish/merch]-python or time-[wish/merch]-python)
