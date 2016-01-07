@@ -120,6 +120,7 @@ ConfigJob = config_object_factory(
         'owner',                # str
         'impact',               # str
         'expected_runtime',     # str
+        'num_retries',          # int
     ])
 
 

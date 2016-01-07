@@ -236,6 +236,7 @@ class JobAdapter(ReprAdapter):
         'owner',
         'impact',
         'expected_runtime',
+        'num_retries'
     ]
 
     def __init__(self, job,
@@ -300,6 +301,9 @@ class JobAdapter(ReprAdapter):
 
     def get_expected_runtime(self):
         return str(self._obj.expected_runtime)
+
+    def get_num_retries(self):
+        return str(self._obj.num_retries)
 
     @toggle_flag('include_action_graph')
     def get_action_graph(self):

@@ -356,6 +356,7 @@ class DisplayJobs(TableDisplay):
         ('Owner',               'owner'             ),
         ('Impact',              'impact'            ),
         ('Expected runtime',    'expected_runtime'  ),
+        ('Number of retries',   'num_retries'       ),
     ]
 
     colors = {

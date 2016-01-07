@@ -292,6 +292,7 @@ class ValidateJob(Validator):
         'owner':                None,
         'impact':               None,
         'expected_runtime':     0,
+        'num_retries':          0,
     }
 
     validators = {

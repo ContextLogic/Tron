@@ -64,6 +64,7 @@ class Job(Observable, Observer):
         'owner',
         'impact',
         'expected_runtime',
+        'num_retries',
     ]
 
     # TODO: use config object
@@ -72,7 +73,7 @@ class Job(Observable, Observer):
             run_collection=None, parent_context=None, output_path=None,
             allow_overlap=None, action_runner=None, max_runtime=None,
             email_name=None, email=None, command=None, priority=None,
-            owner=None, impact=None, expected_runtime=None):
+            owner=None, impact=None, expected_runtime=None, num_retries=None):
         super(Job, self).__init__()
         self.name               = name
         self.email_name         = name.split(".")[1].replace('_', ' ')
@@ -92,6 +93,7 @@ class Job(Observable, Observer):
         self.action_runner      = action_runner
         self.max_runtime        = max_runtime
         self.expected_runtime   = expected_runtime
+        self.num_retries        = num_retries
         self.output_path        = output_path or filehandler.OutputPath()
         self.output_path.append(name)
         self.event              = event.get_recorder(self.name)
@@ -124,7 +126,8 @@ class Job(Observable, Observer):
             priority            = job_config.priority,
             owner               = job_config.owner,
             impact              = job_config.impact,
-            expected_runtime    = job_config.expected_runtime)
+            expected_runtime    = job_config.expected_runtime,
+            num_retries         = job_config.num_retries)
 
     def update_from_job(self, job):
         """Update this Jobs configuration from a new config. This method
