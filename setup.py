@@ -32,7 +32,7 @@ setup(
         'pyasn1>=0.0.13',
         'pycrypto>=2.4',
         'pytz>=2011n',
-        'python-daemon>=1.5.2',
+        'python-daemon==2.0.5',
         'lockfile>=0.7',
     ],
     packages=find_packages(exclude=['tests.*','tests'])+['tronweb'],
