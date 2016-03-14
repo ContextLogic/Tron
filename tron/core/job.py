@@ -296,11 +296,13 @@ class JobScheduler(Observer):
         if self.shutdown_requested:
             return
 
-        if hasattr(job_run, 'state_data') and datetime.now() - \
-                    job_run.state_data['run_time'] > timedelta(minutes=SCHEDULE_THRESHOLD):
-            log.info("%s cancelled because job was scheduled over %d min ago" %
-                    (job_run, SCHEDULE_THRESHOLD))
-            return job_run.cancel()
+        # patrick 14/3/16: disabling until can be made tz-aware so it doesn't
+        #                  mess up with DST
+        # if hasattr(job_run, 'state_data') and datetime.now() - \
+        #             job_run.state_data['run_time'] > timedelta(minutes=SCHEDULE_THRESHOLD):
+        #     log.info("%s cancelled because job was scheduled over %d min ago" %
+        #             (job_run, SCHEDULE_THRESHOLD))
+        #     return job_run.cancel()
 
         # If the Job has been disabled after this run was scheduled, then cancel
         # the JobRun and do not schedule another
