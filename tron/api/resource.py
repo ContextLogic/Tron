@@ -387,7 +387,8 @@ class RootResource(resource.Resource):
         self.web_path = web_path
         self.mcp = mcp
         self.putChild('api', ApiRootResource(self.mcp))
-        self.putChild('web', static.File(web_path))
+        self.putChild('web', FileWithTZ(web_path,
+                                        time_zone=self.mcp.time_zone))
         self.putChild('', self)
 
     def render_GET(self, request):
@@ -397,6 +398,22 @@ class RootResource(resource.Resource):
 
     def __str__(self):
         return "%s(%s, %s)" % (type(self).__name__, self.mcp, self.web_path)
+
+
+class FileWithTZ(static.File):
+    def __init__(self, *args, **kwargs):
+        self.time_zone = kwargs.pop('time_zone', None)
+        super(FileWithTZ, self).__init__(*args, **kwargs)
+
+    def render_GET(self, request):
+        request.setHeader('X-Time-Zone', self.time_zone)
+        return super(FileWithTZ, self).render_GET(request)
+
+    def createSimilarFile(self, path):
+        other_f = super(FileWithTZ, self).createSimilarFile(path)
+        other_f.time_zone = self.time_zone
+        return other_f
+
 
 class LogAdapter(object):
 

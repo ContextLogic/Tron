@@ -12,3 +12,12 @@ confirm_job_run = function() {
     );
   }
 }
+
+$(document).ready(function(){
+  $.ajax({
+    url: document.location,
+    success: function(data, textStatus, jqXHR) {
+      window.timezone = jqXHR.getResponseHeader('X-Time-Zone');
+    }
+  });
+});

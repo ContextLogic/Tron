@@ -20,10 +20,13 @@ window.dateFromNow = (string, defaultString='never') ->
         <span class="label label-<%= type %>"><%= delta %></span>
         """
 
+    tz = window.timezone or 'UTC'
+    user_tz = moment.tz.guess()
+    moment_offset = moment.tz(string, tz).tz(user_tz)
     if string
-        formatted = moment(string).format('MMM, Do YYYY, h:mm:ss a')
+        formatted = moment_offset.format('MMM, Do YYYY, h:mm:ss a')
         delta = label_template
-            delta: moment(string).fromNow()
+            delta: moment_offset.fromNow()
             type: "clear"
     else
         formatted = defaultString

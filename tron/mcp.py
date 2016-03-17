@@ -37,6 +37,7 @@ class MasterControlProgram(object):
         self.event_recorder     = event.get_recorder()
         self.event_recorder.ok('started')
         self.state_watcher      = statemanager.StateChangeWatcher()
+        self.time_zone          = None
 
     def shutdown(self):
         self.state_watcher.shutdown()
@@ -81,6 +82,7 @@ class MasterControlProgram(object):
             (self.apply_notification_options,            'notification_options'),
         ]
         master_config = config_container.get_master()
+        self.time_zone = master_config.time_zone
         apply_master_configuration(master_config_directives, master_config)
 
         # TODO: unify NOTIFY_STATE_CHANGE and simplify this
