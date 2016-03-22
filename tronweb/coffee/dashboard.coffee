@@ -159,9 +159,13 @@ class module.JobStatusBoxView extends StatusBoxView
 
     icon: "icon-time"
 
-    # TODO: get state of last run if enabled
     getState: =>
-        @model.get('status')
+        status = @model.get('status')
+        if status == 'enabled'
+            run = _.find(@model.get('runs'), (r) -> r.state != 'scheduled')
+            if run
+                status = run.state
+        status
 
     count: =>
         if _.isEmpty(@model.get('runs')) then 0 else _.first(@model.get('runs')).run_num
