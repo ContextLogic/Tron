@@ -4,7 +4,7 @@ setInterval(function(){
 confirm_job_run = function() {
   if (confirm("Start new cron run now?") == true) {
     $.post(
-      "http://tron:8089/api/jobs/"+window.location.hash.substring(5),
+      window.location.origin + '/api/jobs/' + window.location.hash.substring(5),
       { command: "start" },
       function(data) {
         location.reload();
