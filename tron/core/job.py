@@ -11,7 +11,8 @@ from tron.utils import timeutils, proxy, iteration, collections
 from tron.utils.observer import Observable, Observer
 from datetime import datetime, timedelta
 
-SCHEDULE_THRESHOLD = 30 # do not start jobs scheduled more than 30 minutes ago
+# NOTE (david): keep this value over 60 so DST doesn't cancel jobs
+SCHEDULE_THRESHOLD = 90 # do not start jobs scheduled more than 90 minutes ago
 
 class Error(Exception):
     pass
