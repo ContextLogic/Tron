@@ -152,6 +152,7 @@ class FileHandleManager(object):
 
 class OutputStreamSerializer(object):
     """Manage writing to and reading from files in a directory hierarchy."""
+    MAX_NUM_LINES = 1000000
 
     def __init__(self, base_path):
         self.base_path = os.path.join(*base_path)
@@ -169,6 +170,7 @@ class OutputStreamSerializer(object):
             return []
         if not num_lines:
             num_lines = sys.maxint
+        num_lines = min(self.MAX_NUM_LINES, num_lines)
 
         try:
             cmd = ('tail', '-n', str(num_lines), path)
