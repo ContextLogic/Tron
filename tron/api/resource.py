@@ -39,6 +39,7 @@ def respond(request, response_dict, code=http.OK, headers=None):
     """Helper to generate a json response"""
     request.setResponseCode(code)
     request.setHeader('content-type', 'text/json')
+    request.setHeader(b'Access-Control-Allow-Origin', b'*')
     for key, val in (headers or {}).iteritems():
         request.setHeader(key, val)
     return json.dumps(response_dict, cls=JSONEncoder) if response_dict else ""
