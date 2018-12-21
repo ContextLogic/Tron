@@ -124,6 +124,7 @@ class Job(Observable, Observer):
             allow_overlap       = job_config.allow_overlap,
             action_runner       = action_runner,
             max_runtime         = job_config.max_runtime,
+            command             = job_config.command,
             priority            = job_config.priority,
             owner               = job_config.owner,
             impact              = job_config.impact,
